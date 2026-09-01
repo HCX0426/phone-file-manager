@@ -1,0 +1,87 @@
+{
+  "name": "phone-file-manager",
+  "version": "1.0.0",
+  "description": "手机文件管理工具 - 通过USB(MTP)访问安卓手机，实现查音乐/导出文件/推送铃声/格式转换",
+  "main": "out/main/index.js",
+  "author": "hcx",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "make-icon": "python\\venv\\Scripts\\python.exe scripts\\make_icon.py",
+    "package": "electron-vite build && electron-builder --win dir --config.win.signAndEditExecutable=false",
+    "package:zip": "npm run build && electron-builder --win dir --config.win.signAndEditExecutable=false && powershell -Command \"Compress-Archive -Path release\\win-unpacked -DestinationPath release\\phone-file-manager-1.0.0-win64.zip -Force\"",
+    "package:setup": "electron-vite build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "antd": "^5.22.0",
+    "@ant-design/icons": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "@electron-toolkit/utils": "^3.0.0",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0",
+    "electron-vite": "^2.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0"
+  },
+  "build": {
+    "appId": "com.hcx.phone-file-manager",
+    "productName": "Phone File Manager",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "python",
+        "to": "python",
+        "filter": [
+          "decode.py",
+          "venv/**/*",
+          "!venv/Scripts/pip*.exe",
+          "!venv/Scripts/*.bat",
+          "!venv/Scripts/Activate.ps1",
+          "!venv/Scripts/activate*",
+          "!venv/Scripts/mid3*.exe",
+          "!venv/Scripts/moggsplit.exe",
+          "!venv/Scripts/mutagen-*.exe",
+          "!venv/Scripts/mutagen-inspect.exe",
+          "!venv/Scripts/mutagen-pony.exe",
+          "!venv/Lib/site-packages/pip/**/*",
+          "!venv/share/**/*",
+          "!venv/Scripts/deactivate.bat"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "dir",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "resources/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "phone-file-manager-${version}-portable.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "phone-file-manager-${version}-setup.exe"
+    }
+  }
+}
