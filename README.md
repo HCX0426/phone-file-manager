@@ -112,3 +112,7 @@ phone-file-manager/
 
 - 项目根有 `.gitignore`：已排除 `node_modules/`、`out/`、`release/`、`*.log`、以及 Python venv（`electron-app/python/venv/`，内含数千包文件）。
 - 用 `git init` 前请确认 `.gitignore` 生效，避免把构建产物与 venv 提交进去。
+
+## 八、License
+
+[MIT](LICENSE) © 2026 HCX0426
